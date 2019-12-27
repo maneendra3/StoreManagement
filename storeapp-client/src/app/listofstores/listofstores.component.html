@@ -1,0 +1,56 @@
+<nav class="navbar navbar-dark bg-secondary custom-nav">
+  <!-- Navbar content -->
+  <button type="button" (click)="addStore(createStore)" class="btn btn-primary">ADD STORE</button>
+  <app-googleplaces (setAddress)="getAddress($event)" adressType="geocode"></app-googleplaces>
+
+</nav>
+<div class="container">
+  <div class="row mt-5">
+    <div class="card m-3" *ngFor="let l of list" style="width: 21rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{l.storeName}}</h5>
+        <p class="card-text">{{l.category}}.</p>
+        <p class="card-text">{{l.storeAddress}}.</p>
+        <p class="card-text">by {{l.ownerName}}.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #createStore let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Create New Store</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="createStoreForm" novalidate>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Name</label>
+        <input type="text" class="form-control" formControlName="storeName" placeholder="Store Name">
+        <!-- <p class="error-msg" *ngIf="createStoreForm.get('storeName').hasError('required')">This field is required!</p> -->
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Category</label>
+        <select class="form-control" formControlName="category">
+          <option value="">Select Category</option>
+          <option value="General Store">General Store</option>
+          <option value="Mall">Mall</option>
+          <option value="Super Market">Super Market</option>
+          <option value="Medical Store">Medical Store</option>
+        </select>
+      </div>
+      <label for="">Address</label>
+      <app-googleplaces (setAddress)="getAddressFormField($event)" adressType="geocode"></app-googleplaces>
+
+      <div class="form-group mt-1">
+        <label for="exampleFormControlInput1">Owner Name</label>
+        <input type="text" class="form-control" formControlName="ownerName" placeholder="Owner Name">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="c('Close click')">Cancel</button>
+    <button type="button" class="btn btn-success" (click)="createStores()">Create</button>
+  </div>
+</ng-template>
